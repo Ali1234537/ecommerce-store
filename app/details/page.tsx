@@ -1,6 +1,6 @@
 
 "use client";
-
+import { Suspense } from "react";
 import Image from "next/image";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import { ArrowBigLeftDash, Info, ShoppingCart, CheckCircle2 } from "lucide-react";
 
-function ProductDetails() {
+function ProductDetailsContent() {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const id = searchParams.get("id");
@@ -209,4 +209,14 @@ function ProductDetails() {
   );
 }
 
-export default ProductDetails;
+export default function ProductDetails() {
+  return (
+    <Suspense
+      fallback={
+        <div className="p-8 text-center">Loading product...</div>
+      }
+    >
+      <ProductDetailsContent />
+    </Suspense>
+  );
+}
